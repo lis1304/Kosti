@@ -8,6 +8,7 @@ public class Start {
     static Player[] masPl;
     static int kolPayer = 0;
     static int kolKosti = 0;
+    static int countMaxVictory = 7;
 
     public static void main(String[] args) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -22,19 +23,24 @@ public class Start {
         }
 
         masPl = new Player[kolPayer];
-
+        //создаем игроков
         for (int i = 0; i < kolPayer; i++) {
             masPl[i] = new Player("Player" + (i + 1));
         }
 
         int i=0;
-        while (maxVict()<7){
-            i++;
-            System.out.println("set # "+i);
+        while (true){
+
+            System.out.println("set # "+(++i));
             for (Player pp : masPl) {
                 pp.setSetSum(brokenKosti());
+                System.out.println("Игрок "+pp.getName() + " бросил на " + pp.getSetSum() + " очка(ков)");
             }
+
             findVictSet();
+            maxVict();
+
+            System.exit(1);
         }
     }
 
@@ -49,11 +55,12 @@ public class Start {
            return randNum;
         }
 
-        public static int maxVict(){
+        public static void maxVict(){
             int max = masPl[0].getKolVictory();
             for (Player pp : masPl) {
-                if (pp.getKolVictory() > max){
-                    max = pp.getKolVictory();
+                if (pp.getKolVictory() == countMaxVictory){
+                    System.out.println("Игра окончена, победил " + pp.getName());
+                    System.exit(1);
                 }
             }
             return max;
@@ -68,7 +75,8 @@ public class Start {
             }
             for (Player pp : masPl){
                 if (pp.getSetSum() == max){
-                    pp.setSetSum();
+                    pp.setKolVictory();
+                    System.out.println("В текущем раунде победил "+pp.getName());
                 }
             }
         }
