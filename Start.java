@@ -40,7 +40,7 @@ public class Start {
             findVictSet();
             maxVict();
 
-            System.exit(1);
+            //System.exit(1);
         }
     }
 
@@ -63,7 +63,6 @@ public class Start {
                     System.exit(1);
                 }
             }
-            return max;
 
         }
         public static void findVictSet(){
@@ -76,7 +75,7 @@ public class Start {
             for (Player pp : masPl){
                 if (pp.getSetSum() == max){
                     pp.setKolVictory();
-                    System.out.println("В текущем раунде победил "+pp.getName());
+                    System.out.println("В текущем раунде победил "+pp.getName() + ", общее кол-во побед " +pp.getKolVictory());
                 }
             }
         }
