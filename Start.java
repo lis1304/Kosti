@@ -2,10 +2,13 @@ package Kosti;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Start {
 
     static Player[] masPl;
+    static Map Player1 = new TreeMap<>();
     static int kolPayer = 0;
     static int kolKosti = 0;
     static int countMaxVictory = 7;
@@ -26,6 +29,7 @@ public class Start {
         //создаем игроков
         for (int i = 0; i < kolPayer; i++) {
             masPl[i] = new Player("Player" + (i + 1));
+            Player1.put("Player" + (i + 1), 0);
         }
 
         int i=0;
