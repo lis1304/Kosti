@@ -1,6 +1,6 @@
 package Kosti;
 
-public class Player {
+public class Player implements Comparable<Player>{
     private String name;
     private int kolVictory;
     private int setSum;
@@ -31,5 +31,18 @@ public class Player {
 
     public void setKolVictory() {
         this.kolVictory ++;
+    }
+
+    @Override
+    public int compareTo(Player o) {
+        Player pl = (Player) o;
+        if (this.getSetSum() < pl.getSetSum()){
+            return 1;
+        }
+        if (this.getSetSum() == pl.getSetSum()){
+            return 0;
+        }
+
+        return -1;
     }
 }

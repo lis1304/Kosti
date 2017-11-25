@@ -2,13 +2,11 @@ package Kosti;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Map;
-import java.util.TreeMap;
+
 
 public class Start {
 
     static Player[] masPl;
-    static Map Player1 = new TreeMap<>();
     static int kolPayer = 0;
     static int kolKosti = 0;
     static int countMaxVictory = 7;
@@ -25,66 +23,10 @@ public class Start {
             System.out.println("необходимо вводить числа");
         }
 
-        masPl = new Player[kolPayer];
-        //создаем игроков
-        for (int i = 0; i < kolPayer; i++) {
-            masPl[i] = new Player("Player" + (i + 1));
-            Player1.put("Player" + (i + 1), 0);
-        }
-
-        int i=0;
-        while (true){
-
-            System.out.println("set # "+(++i));
-            for (Player pp : masPl) {
-                pp.setSetSum(brokenKosti());
-                System.out.println("Игрок "+pp.getName() + " бросил на " + pp.getSetSum() + " очка(ков)");
-            }
-
-            findVictSet();
-            maxVict();
-
-            //System.exit(1);
-        }
+        Game newGame = new Game(kolKosti,kolPayer,countMaxVictory);
+        newGame.start();
     }
 
 
+ }
 
-        public static int brokenKosti(){
-            int beg = 1, end = 6, randNum=0;
-            for (int i = 0; i < kolKosti; i++) {
-                randNum += beg + (int) (Math.random()*end);
-            }
-
-           return randNum;
-        }
-
-        public static void maxVict(){
-            int max = masPl[0].getKolVictory();
-            for (Player pp : masPl) {
-                if (pp.getKolVictory() == countMaxVictory){
-                    System.out.println("Игра окончена, победил " + pp.getName());
-                    System.exit(1);
-                }
-            }
-
-        }
-        public static void findVictSet(){
-            int max = masPl[0].getSetSum();
-            for (Player pp : masPl) {
-                if (pp.getSetSum() > max){
-                    max = pp.getSetSum();
-                }
-            }
-            for (Player pp : masPl){
-                if (pp.getSetSum() == max){
-                    pp.setKolVictory();
-                    System.out.println("В текущем раунде победил "+pp.getName() + ", общее кол-во побед " +pp.getKolVictory());
-                }
-            }
-        }
-
-
-
-
-}
