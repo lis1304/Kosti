@@ -1,16 +1,13 @@
 package Kosti;
 
 import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
 
-import static Kosti.Start.maxVict;
 
 public class Game {
     private int countKosti;
     private int countPlayer;
     private int countVictory;
-    public static Kubik kubik;
+    public Kubik kubik;
 
     public Game(int countKosti, int countPlayer, int countVictory) {
         this.countKosti = countKosti;
@@ -21,35 +18,36 @@ public class Game {
     public void start(){
 
         //создаем игроков
-        Player[] masPl = new Player[this.countPlayer];
+        Player[] players = new Player[this.countPlayer];
         for (int i = 0; i < this.countPlayer; i++) {
-            masPl[i] = new Player("Player" + (i + 1));
+            players[i] = new Player("Player" + (i + 1));
         }
         kubik = new Kubik(this.countKosti);
 
         //играем
-        int i=0;
+        int setNumber=0;
         while (true){
             //бросаем кости
-            System.out.println("set # "+(++i));
-            for (Player pp : masPl) {
-                pp.setSetSum(kubik.brokenKosti());
-                System.out.println("Игрок "+pp.getName() + " бросил на " + pp.getSetSum() + " очка(ков)");
+            System.out.println("set # "+(++setNumber));
+            for (Player player : players) {
+                player.setSetSum(kubik.rollDice());
+                System.out.println("Игрок "+player.getName() + " бросил на " + player.getSetSum() + " очка(ков)");
             }
             //ищем победителя в сете
-            findVictSet(masPl);
+            findVictorySet(players);
 
             //считаем у кого сколько побед
-            maxVict(masPl);
+            maxVict(players,this.countVictory);
 
         }
     }
 
-    public static int CountVictorySet(Player[] masPl){
+    //Для определения количества победителей в текущем сете
+    private int CountVictorySet(Player[] players){
         //проверяем сколько победителей в сете
-        int maxCount = masPl[0].getSetSum();
+        int maxCount = players[0].getSetSum();
         int kol = 0;
-        for (Player pp :masPl){
+        for (Player pp :players){
             if (pp.getSetSum() == maxCount){
                 kol++;
             }
@@ -58,43 +56,47 @@ public class Game {
 
     }
 
-    public static void perebrosKostey(int kol, Player[] pl){
+    //Переигровка у игроков выбивших одинаковое максимальное количество очков
+    private void perebrosKostey(int kol, Player[] players){
 
         Player[] tempPlayer = new Player[kol];
         for (int i = 0; i < kol; i++) {
-            tempPlayer[i] = pl[i];
+            tempPlayer[i] = players[i];
         }
         while (CountVictorySet(tempPlayer)>1){
-            for (Player pp : tempPlayer) {
-                pp.setSetSum(kubik.brokenKosti());
-                System.out.println("Игрок "+pp.getName() + " перебросил на " + pp.getSetSum() + " очка(ков)");
+            for (Player tPlayer : tempPlayer) {
+                tPlayer.setSetSum(kubik.rollDice());
+                System.out.println("Игрок "+tPlayer.getName() + " перебросил на " + tPlayer.getSetSum() + " очка(ков)");
             }
             Arrays.sort(tempPlayer);
         }
         for (int i = 0; i < tempPlayer.length; i++) {
-            pl[i] = tempPlayer[i];
+            players[i] = tempPlayer[i];
         }
 
     }
-    public static void findVictSet(Player[] masPl){
-        int kolV=0;
+
+    //Определяем победителя в сете
+    private void findVictorySet(Player[] players){
+        int kolVictory=0;
         //сортируем по убыванию очков в данном сете
-        Arrays.sort(masPl);
+        Arrays.sort(players);
 
         //проверяем сколько победителей в сете
-        kolV = CountVictorySet(masPl);
-        if (kolV > 1){
-            perebrosKostey(kolV,masPl);
+        kolVictory = CountVictorySet(players);
+        if (kolVictory > 1){
+            perebrosKostey(kolVictory,players);
         }
-        masPl[0].setKolVictory();
-        System.out.println("В текущем раунде победил "+masPl[0].getName() + ", общее кол-во побед " +masPl[0].getKolVictory());
+        players[0].setKolVictory();
+        System.out.println("В текущем раунде победил "+players[0].getName() + ", общее кол-во побед " +players[0].getKolVictory());
 
     }
-    public static void maxVict(Player[] masPl){
-        int max = masPl[0].getKolVictory();
-        for (Player pp : masPl) {
-            if (pp.getKolVictory() == Start.countMaxVictory){
-                System.out.println("Игра окончена, победил " + pp.getName());
+
+    private void maxVict(Player[] players, int maxVictory){
+        int max = players[0].getKolVictory();
+        for (Player player: players) {
+            if (player.getKolVictory() == maxVictory){
+                System.out.println("Игра окончена, победил " + player.getName());
                 System.exit(1);
             }
         }

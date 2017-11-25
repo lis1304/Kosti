@@ -1,14 +1,17 @@
 package Kosti;
 
 public class Kubik {
-    private static int count;
+    private int count;
+    final int beg = 1;
+    final int end = 6;
+
 
     public Kubik(int count) {
         this.count = count;
     }
 
-    public static int brokenKosti(){
-        int beg = 1, end = 6, randNum=0;
+    public int rollDice(){
+        int randNum=0;
         for (int i = 0; i < count; i++) {
             randNum += beg + (int) (Math.random()*end);
         }

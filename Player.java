@@ -32,14 +32,14 @@ public class Player implements Comparable<Player>{
     public void setKolVictory() {
         this.kolVictory ++;
     }
-
+    //сортировка по убыванию
     @Override
     public int compareTo(Player o) {
-        Player pl = (Player) o;
-        if (this.getSetSum() < pl.getSetSum()){
+
+        if (this.getSetSum() < o.getSetSum()){
             return 1;
         }
-        if (this.getSetSum() == pl.getSetSum()){
+        if (this.getSetSum() == o.getSetSum()){
             return 0;
         }
 
