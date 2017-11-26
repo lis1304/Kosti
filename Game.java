@@ -7,7 +7,7 @@ public class Game {
     private int countKosti;
     private int countPlayer;
     private int countVictory;
-    public Kubik kubik;
+    private Kubik kubik;
 
     public Game(int countKosti, int countPlayer, int countVictory) {
         this.countKosti = countKosti;
